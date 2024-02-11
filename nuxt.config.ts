@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', 'primeicons/primeicons.css'],
   modules:[
     'nuxt-primevue',
     ['@nuxtjs/google-fonts', {
@@ -20,11 +20,13 @@ export default defineNuxtConfig({
         display: 'swap',
     },],
   ],
+  
   primevue: {
     directives: {
       include: ['Calendar', 'OverlayPanel','Galleria']
-  }
+  },
 },
+
   postcss: {
     plugins: {
       tailwindcss: {},

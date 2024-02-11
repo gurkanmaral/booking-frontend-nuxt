@@ -30,7 +30,7 @@ console.log(token.value,"token")
       });
 
       if (response.data && typeof response.data === 'object') {
-        // Ensure that the response data is a valid object.
+       
         console.log(response.data, "user");
       } else {
         console.error("Invalid user data received from the server");
@@ -143,12 +143,12 @@ function formatDateForServer(date) {
 </script>
 
 <template>
-    <div class="w-full flex flex-col max-w-4xl mx-auto">
+    <div class="w-full flex flex-col max-w-4xl mx-auto mt-5">
         <div class="">               
             <Galleria :value="images"   :numVisible="4" :circular="true" containerStyle="width: 100%; margin: auto;" 
             :showItemNavigators="true" :showThumbnails="false">
                 <template #item="slotProps" >
-                    <img :src="'http://127.0.0.1:8000/storage/' + slotProps.item.itemImageSrc" :alt="slotProps.item.alt" class="object-cover" style="width: 100%; max-width: 640px; height: 500px; display: block; object-fit: cover;" />
+                    <img :src="'http://127.0.0.1:8000/storage/' + slotProps.item.itemImageSrc" :alt="slotProps.item.alt" class="object-cover" style="width: 100%; max-width: 640px; height: 500px; display: block; object-fit: cover; border-radius: 10px;" />
                 </template>
                 <template #thumbnail="slotProps">
                     <img :src="'http://127.0.0.1:8000/storage/' + slotProps.item.thumbnailImageSrc" :alt="slotProps.item.alt" style="display: block;" class="w-[100px] h-[100px]" />

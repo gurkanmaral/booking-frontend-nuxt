@@ -81,7 +81,7 @@ const formatPrice = (price) => {
        <div class="w-full flex flex-col">
         <div class="w-full ">
             <div v-if="houses?.houses?.data && houses?.houses?.data?.length > 0" class=" min-h-screen w-full grid grid-cols-4">
-                <NuxtLink :to="`/houses/${house.id}`" v-for="house in houses.houses.data" :key="house.id" class=" p-2 flex flex-col">                
+                <NuxtLink :to="`/houses/${house.id}`" v-for="house in houses?.houses?.data" :key="house.id" class=" p-2 flex flex-col">                
                     <div>
                      <img :src="`http://127.0.0.1:8000/storage/${house.image_url_1}`" class="rounded-md aspect-square object-cover" alt="">
                     </div>

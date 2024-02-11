@@ -15,19 +15,13 @@ export default {
           email: this.email,
           password: this.password,
         });
-        // If login is successful, you can save the token in a cookie or localStorage
-        // for future API requests or route guards.
+      
         const token = response.data.token;
         Cookies.set('auth_token', token);
-        // You can use a library like 'js-cookie' to save the token in a cookie.
-        // Example:
-        // import Cookies from 'js-cookie';
-        // Cookies.set('auth_token', token);
-        
-        // Redirect to the home page or any other desired page upon successful login.
+       
         this.$router.push("/");
       } catch (error) {
-        // Handle login errors (e.g., show an error message)
+       
         console.error("Login failed:", error);
       }
     },
