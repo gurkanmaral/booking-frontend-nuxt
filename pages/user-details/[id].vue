@@ -1,4 +1,9 @@
 <script setup>
+definePageMeta({
+  layout: 'user',
+})
+
+
 import axios from 'axios';
 import { useAsyncData,useRoute,useRouter } from 'nuxt/app';
 import { ref, computed } from 'vue';
@@ -21,7 +26,7 @@ const { data: currentUser, error: userError, pending: userPending, refresh: user
       });
 
       if (response.data && typeof response.data === 'object') {
-        // Ensure that the response data is a valid object.
+      
         console.log(response.data, "user");
       } else {
         console.error("Invalid user data received from the server");
@@ -35,26 +40,30 @@ const { data: currentUser, error: userError, pending: userPending, refresh: user
   }
 );
 
-console.log(user);
+const isBookingCurrentUser = (userId) => {
+
+  const isCurrentUser = computed( ()=> userId !== currentUser?.value?.id )
+  return isCurrentUser
+}
+
 
 const isCurrentUser = computed( ()=> user._rawValue.id === currentUser?.value?.id);
 
-console.log(user._rawValue.id,"current")
-console.log(currentUser.value.id,"user")
 </script>
 
 <template>
    
-<div class=" mt-10 max-w-3xl mx-auto w-full flex flex-col">
+<div class=" mt-10 max-w-3xl mx-auto w-full flex flex-col mb-10">
     <div class=" flex gap-4 px-2 py-3">
-       <div class=" p-3 rounded-full bg-blue-600">
+       <div class=" p-3 rounded-full bg-emerald-500">
         <i class="pi pi-user" style="font-size: 60px">
 
         </i>
        </div>
       <div class="flex flex-col  ">
-        <div class="flex gap-2    h-full">
-            <p class="text-2xl font-semibold"> {{ user?.name }}
+        <div class="flex flex-col  h-full">
+            <p class="text-2xl font-semibold"> 
+              {{ user?.name }}
 
             </p>
             <span class="text-red-500 text-lg">
@@ -68,31 +77,54 @@ console.log(currentUser.value.id,"user")
     </div>
     <div class="mt-10">
         <div v-if="isCurrentUser" >
-            Your Accomodations
-            <div>
-                <div v-for="house in user?.houses" :key="house.id" class="border border-black flex gap-4">
-                    <img :src="`http://127.0.0.1:8000/storage/${house.image_url_1}`" class="rounded-md aspect-square object-cover w-20 h-20" alt="">
-                    <span>{{house.location}}</span>
-                    <span>{{house.id}}</span>
-                    <span>{{house.location}}</span>
-                </div>
-            </div>
+            <span class="text-lg font-semibold">
+              Your Accomodations
+            </span>
         </div>
         <div v-else>
-            {{ user?.name }} Accomodations
+            <span  class="text-lg font-semibold">
+              {{ user?.name }} Accomodations
+            </span>
         </div>
+        <div class="grid grid-cols-1 gap-4 mt-4">
+          <Nuxt-link :to="`/houses/${house.id}`" v-for="house in user?.houses" :key="house.id" class=" flex  gap-4 border border-black/55 p-2 rounded-md">
+              <img :src="`http://127.0.0.1:8000/storage/${house.image_url_1}`" class="rounded-md aspect-square object-cover w-20 h-20" alt="">
+              <div class="flex flex-col gap-2">
+                <span class="text-lg  font-semibold">{{house.name}}</span>
+                <span>{{house.location}}</span>
+              </div>
+          </Nuxt-link>
+      </div>
     </div>
     <div class="mt-10">
         <div v-if="isCurrentUser">
-                <h1>Booked </h1>
-                <div v-for="booking in user?.bookings" :key="booking.id" class="border border-black flex gap-4">
-                    {{ booking.id }}               
+                <h1 class="text-lg font-semibold mb-4">Booked </h1>
+                <div class="grid grid-cols-1 gap-4 mt-4 ">
+                  <Nuxt-link :to="`/houses/${booking.house.id}`" v-for="booking in user?.bookings" :key="booking.id" class="flex justify-between items-center  gap-4 border border-black/55 p-2 rounded-md">            
+                      <div class="flex gap-2 items-center">
                         <img :src="`http://127.0.0.1:8000/storage/${booking?.house.image_url_1}`" class="rounded-md aspect-square object-cover w-20 h-20" alt="">
-                        <span>{{booking?.house.name}}</span>
-                        <span>{{booking?.house.price}}</span>
-                        <span>{{booking?.house.location}}</span>
-                        <span>{{booking?.start_date}}</span>
-                        <span>{{booking?.end_date}}</span>
+                        <div class="flex flex-col gap-2">
+                         <span class="text-lg font-semibold">{{booking?.house.name}}</span>
+                         <span>{{booking?.house.location}}</span>
+                        </div>
+                      </div>
+                      <div class="flex gap-10 items-center justify-center">
+                        <div class="flex flex-col gap-2">
+                          <span>Check in: {{booking?.start_date}}</span>
+                          <span>Checl out: {{booking?.end_date}}</span>
+                        </div>
+                        <div class="flex flex-col gap-4">
+                          <Nuxt-link :to="`/user-details/${booking.house.user.id}`">
+                            Host:{{ booking?.house.user.name }}
+                          </Nuxt-link>
+                          <div v-if="isBookingCurrentUser(booking?.house.user.id)">
+                            <Nuxt-link :to="`/chat/${booking?.house.user.id}`" class="bg-emerald-500 rounded-md p-2">
+                              <span>Send message</span>
+                            </Nuxt-link>
+                          </div>          
+                        </div>
+                      </div>
+            </Nuxt-link>
                 </div>
         </div>
     </div>

@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  plugins: ['~/plugins/vue-3google-map'],
   devtools: { enabled: true },
   css: ['~/assets/css/main.css', 'primeicons/primeicons.css'],
   modules:[
@@ -23,7 +24,7 @@ export default defineNuxtConfig({
   
   primevue: {
     directives: {
-      include: ['Calendar', 'OverlayPanel','Galleria']
+      include: ['Calendar', 'OverlayPanel','Galleria','ProgressSpinner','Toast']
   },
 },
 

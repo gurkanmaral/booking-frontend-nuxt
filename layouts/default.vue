@@ -1,7 +1,7 @@
 <script>
 import axios from 'axios';
 import Cookies from 'js-cookie';
-
+import ProgressSpinner from 'primevue/progressspinner';
 export default {
   data() {
     return {
@@ -27,6 +27,7 @@ console.log(token)
       }
       else{
         this.loggedInUser = null;
+        this.loadingUser = false;
       }
     } catch (error) {
       console.error("Failed to fetch user data:", error);
@@ -62,27 +63,31 @@ console.log(token)
    <div class="max-w-6xl mx-auto flex flex-col">
 
         <HomeNavbar>
-           <div class="flex justify-between py-2 px-5">
-                <div>
-                  LOGO
+           <div class="flex justify-between py-2 px-5  items-center">
+                <div >
+                 <Nuxt-link to="/" class="flex flex-row gap-2 items-center">
+                  <img src="/assets/images/journey.svg" class="w-10 h-10" alt="">
+                  <span class="text-xl font-semibold">
+                    Booking
+                  </span>
+                 </Nuxt-link>
                 </div>
-                <div>
-                    <!-- Display user name if logged in -->
+                <div>             
                     <template v-if="loggedInUser && loggedInUser.name">
                       <div class="flex items-center  gap-5 font-semibold">
                         <nuxt-link to="/">Home</nuxt-link>   
                         <nuxt-link :to=" '/user-details/' + loggedInUser.id "> {{ loggedInUser.name }}  </nuxt-link> 
-                        <div @click="logout" >
+                        <div @click="logout" class="cursor-pointer" >
                           Logout
                         </div>           
                       </div>
                     </template>
                     <template v-else-if="loadingUser">
                          <div>
-                              loading
+                             <ProgressSpinner class="w-5 h-5" />
                          </div>
                     </template>
-                    <template v-else-if="!loadingUser">
+                    <template v-else-if="!loadingUser && !loggedInUser">
                         <div class="flex items-center  gap-5 font-semibold">
                           <router-link to="/">Home</router-link>
                           <router-link to="/login">Login</router-link>
@@ -93,7 +98,7 @@ console.log(token)
 
            </div>
         </HomeNavbar> 
-        <div>
+        <div class="p-3 md:p-0">
             <Header />
         </div>
 

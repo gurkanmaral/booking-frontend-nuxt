@@ -51,13 +51,15 @@ const formatPrice = (price) => {
 
 
 <template>
-    <div class="w-full flex gap-4 mt-4">
-        <div class="w-1/4 border h-[50%] p-3 rounded-lg shadow-md shadow-black/15 border-black flex flex-col gap-10">
-            <div class="flex">
+    <div class="w-full flex flex-col md:flex-row gap-4 mt-10 p-4 md:p-0">
+        <div class="w-full  md:w-1/4 border md:sticky md:top-4 h-[50%] p-3 rounded-lg shadow-md shadow-black border-l-4 border-b-4 border-black flex flex-col gap-10">
+            <div class="flex flex-col gap-2">
                 <label for="priceSort">
-                    Sort by Price:
+                    <span class="text-lg">
+                        Sort by Price:
+                    </span>
                 </label>
-                <select v-model="priceSort" id="priceSort">
+                <select v-model="priceSort" id="priceSort" class="border border-black rounded-md p-2">
                     <option value="desc">
                         Highest to lowest
                     </option>
@@ -67,20 +69,30 @@ const formatPrice = (price) => {
                 </select>
             </div>
 
-            <div class="flex">
-                <label for="houseType">House Type:</label>
-                <select id="houseType" v-model="houseType">                
+            <div class="flex flex-col gap-2">
+                <label for="houseType">
+                    <span class="text-lg">
+                        House Type:
+                    </span>
+
+                </label>
+                <select id="houseType" v-model="houseType" class="border-black border rounded-md p-2 custom-select">                
                     <option value="">All Types</option>
                     <option value="apartment">Apartment</option>
                     <option value="villa">Villa</option>
                     <option value="house">House</option>
                 </select>
             </div>
-            <button @click="applyFilters">Apply Filters</button>
+            <button @click="applyFilters"
+            class="border border-emerald-500 rounded-md p-2 bg-emerald-500 min-w-[100px]"
+            >
+                Apply Filters
+
+            </button>
        </div>
        <div class="w-full flex flex-col">
         <div class="w-full ">
-            <div v-if="houses?.houses?.data && houses?.houses?.data?.length > 0" class=" min-h-screen w-full grid grid-cols-4">
+            <div v-if="houses?.houses?.data && houses?.houses?.data?.length > 0" class=" min-h-screen w-full grid grid-cols-1 md:grid-cols-4">
                 <NuxtLink :to="`/houses/${house.id}`" v-for="house in houses?.houses?.data" :key="house.id" class=" p-2 flex flex-col">                
                     <div>
                      <img :src="`http://127.0.0.1:8000/storage/${house.image_url_1}`" class="rounded-md aspect-square object-cover" alt="">
@@ -102,19 +114,28 @@ const formatPrice = (price) => {
                     </div>        
                  </NuxtLink>
             </div>
-            <div v-else>
-                No houses
+            <div v-else class="min-h-screen p-2">
+                <span class="font-semibold text-2xl">
+                    No houses
+                </span>
             </div>
         </div>         
         
         <div class="flex w-full items-center justify-center gap-5 mb-10">
-            <button @click="navigatePage(currentPage - 1)" :disabled="currentPage <= 1">
+            <button @click="navigatePage(currentPage - 1)" :disabled="currentPage <= 1"
+            class="border border-emerald-500 rounded-md p-2 bg-emerald-500 min-w-[100px] items-center justify-center "
+            >
                 Previous
               </button>
-              <button @click="navigatePage(currentPage + 1)" :disabled="!houses.houses.next_page_url">
+              <button @click="navigatePage(currentPage + 1)" :disabled="!houses.houses.next_page_url"
+              class="border border-emerald-500 rounded-md p-2 bg-emerald-500 min-w-[100px] items-center justify-center ">
                 Next
               </button>
         </div>
     </div>
     </div>
 </template>
+
+<style>
+
+</style>

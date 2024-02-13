@@ -4,7 +4,7 @@ import { useAsyncData,useRoute,useRouter } from 'nuxt/app';
 import OverlayPanel from 'primevue/overlaypanel';
 import Calendar from 'primevue/calendar';
 import { computed } from 'vue';
-
+import ProgressSpinner from 'primevue/progressspinner';
 const route = useRoute()
 const router= useRouter()
 const currentPage = computed(() => Number(route.query.page) || 1);
@@ -67,15 +67,15 @@ watch(() => route.query.page, () => {
 <template>
  <div class="flex flex-col">
   <div>
-    <div v-if="pending">
-      <p>Loading houses...</p>
+    <div v-if="pending" class="w-full h-[600px] items-center justify-center flex">
+      <ProgressSpinner class="w-10 h-10" />
     </div>
     <div v-else-if="error">
       <p>Error fetching houses: {{ error.message }}</p>
     </div>
     <div v-else class="flex flex-col w-full min-h-screen max-w-7xl mx-auto    ">
       <div class="min-h-screen">
-        <div class="grid grid-cols-4 gap-4 mt-10">
+        <div class="grid grid-cols-1 p-3 md:p-0 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
             <NuxtLink  :to="`/houses/${house.id}`"   v-for="house in houses?.houses?.data" :key="house.id" class=" p-2 flex flex-col">                
                <div>
                 <img :src="`http://127.0.0.1:8000/storage/${house.image_url_1}`" class="rounded-md aspect-square object-cover" alt="">
@@ -102,10 +102,12 @@ watch(() => route.query.page, () => {
     </div>
   </div>
   <div class="flex w-full items-center justify-center gap-5 mb-10">
-    <button @click="navigatePage(currentPage - 1)" :disabled="currentPage <= 1">
+    <button @click="navigatePage(currentPage - 1)" :disabled="currentPage <= 1"
+    class="border border-emerald-500 rounded-md p-2 bg-emerald-500 min-w-[100px] items-center justify-center ">
       Previous
     </button>
-    <button @click="navigatePage(currentPage + 1)" :disabled="!houses?.houses?.next_page_url">
+    <button @click="navigatePage(currentPage + 1)" :disabled="!houses?.houses?.next_page_url"
+    class="flex border border-emerald-500 rounded-md p-2 bg-emerald-500 min-w-[100px] items-center justify-center ">
       Next
     </button>
   </div>
@@ -116,7 +118,7 @@ watch(() => route.query.page, () => {
   <style>
   .calendar input {
     
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 5px;
     padding: 4px;
     font-size: 16px;
