@@ -70,7 +70,7 @@ watch(() => route.query.page, () => {
     <div v-if="pending" class="w-full h-[600px] items-center justify-center flex">
       <ProgressSpinner class="w-10 h-10" />
     </div>
-    <div v-else-if="error">
+    <div v-else-if="error" class="w-full h-[600px] p-10">
       <p>Error fetching houses: {{ error.message }}</p>
     </div>
     <div v-else class="flex flex-col w-full min-h-screen max-w-7xl mx-auto    ">

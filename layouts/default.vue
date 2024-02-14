@@ -76,6 +76,7 @@ console.log(token)
                     <template v-if="loggedInUser && loggedInUser.name">
                       <div class="flex items-center  gap-5 font-semibold">
                         <nuxt-link to="/">Home</nuxt-link>   
+                        <nuxt-link to="/chat" class="hidden md:block">Messages</nuxt-link>   
                         <nuxt-link :to=" '/user-details/' + loggedInUser.id "> {{ loggedInUser.name }}  </nuxt-link> 
                         <div @click="logout" class="cursor-pointer" >
                           Logout
